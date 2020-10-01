@@ -37,6 +37,17 @@ class KnightPathFinder
         build_move_tree
     end
 
+    def find_path(end_pos)
+        end_node = root_node.dfs(end_pos)
+        trace_path_back(end_node)
+            .reverse
+            .map(&:value)
+    end
+
+    private_constant :MOVES
+
+    private
+
     def build_move_tree
         self.root_node = PolyTreeNode.new(@starting_pos)
         nodes = [root_node]
@@ -57,4 +68,19 @@ class KnightPathFinder
             .each { |new_pos| considered_positions << new_pos }
     end
 
+    def trace_path_back(end_node)
+        nodes = []
+        current_node = end_node
+        until nodes.empty?
+            nodes << current_node
+            current_node = current_node.parent
+        end
+        nodes
+    end
+
+end
+
+if $PROGRAM_NAME == __FILE__
+  kpf = KnightPathFinder.new([0, 0])
+  p kpf.find_path([7, 7])
 end
