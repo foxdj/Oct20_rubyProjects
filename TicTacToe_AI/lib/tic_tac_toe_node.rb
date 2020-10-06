@@ -40,6 +40,7 @@ class TicTacToeNode
         pos = [row_idx, col_idx]
 
         next unless board.empty?(pos)
+        @prev_move_pos = pos
         new_board = board.dup
 
         new_board[pos] = self.next_mover_mark
